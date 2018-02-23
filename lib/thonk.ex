@@ -3,11 +3,13 @@ defmodule Thonk do
   alias Alchemy.{Client, Cogs}
 
   @token Application.fetch_env!(:thonk, :token)
+  @prefix Application.fetch_env!(:thonk, :prefix)
 
   def start(_type, _args) do
     run = Client.start(@token)
+    Client.update_status(playing: "OPA")
     load_modules()
-    Cogs.set_prefix("$")
+    Cogs.set_prefix(@prefix)
     run
   end
 
