@@ -25,5 +25,5 @@ or run it in interactive mode <br>
 `mix deps.get && iex -S mix`
 
 ### Thanks
-[ihavenonickname](https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos) - The [**comment**](https://github.com/eudescar/thonk/blob/master/lib/commands/comment.ex) command.
-[cronokirby](https://github.com/cronokirby/alchemy) - Alchemy library
+- [**ihavenonickname**](https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos) - The [comment](https://github.com/eudescar/thonk/blob/master/lib/commands/comment.ex) command.
+- [**cronokirby**](https://github.com/cronokirby/alchemy) - Alchemy library
