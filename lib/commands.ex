@@ -8,11 +8,7 @@ defmodule Thonk.Commands do
     |> Map.keys()
     |> Enum.join("\n")
 
-    %Embed{
-      color: 0xfac84b,
-      title: "All available commands",
-      description: commands
-    }
+    %Embed{color: 0xfac84b, title: "All available commands", description: commands}
     |> Embed.send()
   end
 
