@@ -7,5 +7,5 @@ config :thonk,
   prefix: System.get_env("COMMAND_PREFIX") || "t$"
 
 config :alchemy,
-  ffmpeg_path: "/path/to/ffmpeg",
-  youtube_dl_path: "/path/to/youtube-dl"
+  ffmpeg_path: "/usr/bin/ffmpeg",
+  youtube_dl_path: "/usr/bin/youtube-dl"
