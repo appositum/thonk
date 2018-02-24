@@ -24,6 +24,6 @@ config :alchemy,
 or run it in interactive mode <br>
 `mix deps.get && iex -S mix`
 
-### Thanks
+### Some credits and stuff
 - [**ihavenonickname**](https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos) - The [comment](https://github.com/eudescar/thonk/blob/master/lib/commands/comment.ex) command idea.
 - [**cronokirby**](https://github.com/cronokirby/alchemy) - Alchemy library
