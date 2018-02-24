@@ -67,17 +67,17 @@ defmodule Thonk.Commands do
     [{title, video_ref}] = Enum.take_random(videos, 1)
 
     res = HTTPoison.get!("https://www.xvideos.com/video-get-comments/#{video_ref}/0")
-    [comment] = res.body
+    comment = res.body
     |> Poison.decode!()
     |> Map.get("comments")
     |> Enum.take_random(1)
 
     # Handle empty comments
     case comment do
-      nil ->
+      [] ->
         get_comment()
-      _ ->
-        {title, Map.take(comment, ["c", "n"])}
+      [c] ->
+        {title, Map.take(c, ["c", "n"])}
     end
   end
 end
