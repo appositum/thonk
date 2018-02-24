@@ -3,7 +3,7 @@
 ### A Discord Bot
 
 [![Erlang/OTP](https://img.shields.io/badge/Erlang/OTP-%E2%89%A521-c50096.svg)](https://github.com/erlang/otp)
-[![Elixir](https://img.shields.io/badge/elixir-%E2%89%A51.6.1-75397d.svg)](https://elixir-lang.org/)
+[![Elixir](https://img.shields.io/badge/elixir-%E2%89%A51.5-75397d.svg)](https://elixir-lang.org/)
 
 ```elixir
 # config/config.exs
