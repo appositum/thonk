@@ -12,7 +12,8 @@ use Mix.Config
 
 config :porcelain, driver: Porcelain.Driver.Basic
 config :thonk,
-  token: "your token here"
+  token: "your token",
+  prefix: "command prefix (t$ by default)"
 
 # Necessary to voice functionality
 config :alchemy,
@@ -25,5 +26,5 @@ or run it in interactive mode <br>
 `mix deps.get && iex -S mix`
 
 ### Some credits and stuff
-- [**ihavenonickname**](https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos) - The [comment](https://github.com/eudescar/thonk/blob/master/lib/commands/comment.ex) command idea.
+- [**ihavenonickname**](https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos) - The [xvideos comment](https://github.com/eudescar/thonk/blob/master/lib/commands/comment.ex) idea.
 - [**cronokirby**](https://github.com/cronokirby/alchemy) - Alchemy library
