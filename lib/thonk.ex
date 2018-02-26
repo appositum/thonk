@@ -6,6 +6,13 @@ defmodule Thonk do
   @prefix Application.fetch_env!(:thonk, :prefix)
 
   def start(_type, _args) do
+    case System.get_env("TOKEN") do
+      nil -> raise "TOKEN environment variable is not set"
+      _   -> bootstrap_start()
+    end
+  end
+
+  defp bootstrap_start do
     run = Client.start(@token)
     load_modules()
     Cogs.set_prefix(@prefix)
