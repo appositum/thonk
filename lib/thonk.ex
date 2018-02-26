@@ -21,6 +21,7 @@ defmodule Thonk do
 
   defp load_modules do
     use Thonk.Events
-    use Thonk.Commands
+    use Thonk.Utils
+    use Thonk.XVideos
   end
 end
