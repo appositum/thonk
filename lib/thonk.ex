@@ -20,6 +20,7 @@ defmodule Thonk do
   end
 
   defp load_modules do
+    use Thonk.Basic
     use Thonk.Events
     use Thonk.Utils
     use Thonk.XVideos
