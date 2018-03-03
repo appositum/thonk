@@ -1,6 +1,26 @@
-defmodule Thonk.XVideos do
+defmodule Thonk.Fun do
   use Alchemy.Cogs
+  alias Alchemy.Voice
   require Alchemy.Embed, as: Embed
+
+  @doc """
+  oh no
+  """
+  Cogs.def ohno do
+    Client.send_message(message.channel_id, "oh no", file: "lib/assets/ohno.png")
+  end
+
+  @moduledoc """
+  Plays a gemidao in a voice channel.
+  """
+  Cogs.def gemidao do
+    IO.inspect Cogs.guild()
+    {:ok, guild} = Cogs.guild()
+    voice_channel = Enum.find(guild.channels, &match?(%{type: :voice}, &1))
+
+    Voice.join(guild.id, voice_channel.id)
+    Voice.play_file(guild.id, "lib/assets/gemidao.mp3")
+  end
 
   @doc """
   Gets a random comment from brazilian porn on xvideos.
