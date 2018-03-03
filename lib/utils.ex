@@ -28,7 +28,7 @@ defmodule Thonk.Utils do
       {"Version", "#{app_version}"},
       {"Elixir Version", System.version()},
       {"Library", "[Alchemy #{lib_version}](https://github.com/cronokirby/alchemy)"},
-      {"Author", "[eddie ɤ◬#7545](https://github.com/eudescar)"},
+      {"Author", "[appositum#7545](https://github.com/appositum)"},
       {"Guilds", "#{guilds}"},
       {"Processes", "#{processes}"},
       {"Memory Usage", "#{memory} MB"}
@@ -39,7 +39,7 @@ defmodule Thonk.Utils do
     end)
     |> Embed.title("Thonk")
     |> Embed.thumbnail("http://i.imgur.com/6YToyEF.png")
-    |> Embed.url("https://github.com/eudescar/thonk")
+    |> Embed.url("https://github.com/appositum/thonk")
     |> Embed.footer(text: "Uptime: #{uptime()}")
     |> Embed.send()
   end
