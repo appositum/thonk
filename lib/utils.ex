@@ -20,7 +20,7 @@ defmodule Thonk.Utils do
   @doc """
   Checks for administrator permission given the guild struct and a user ID.
   """
-  @spec check_admin(%Alchemy.Guild{}, String.t) :: boolean
+  @spec check_admin(Alchemy.Guild.t(), String.t()) :: boolean
   def check_admin(guild, user_id) do
     member = guild.members
     |> Enum.find(&(&1.user.id == user_id))
@@ -53,7 +53,7 @@ defmodule Thonk.Utils do
     end
   end
 
-  @spec escape(String.t) :: String.t
+  @spec escape(String.t()) :: String.t()
   def escape(string) do
     Regex.replace(~r{</?(a|A).*?>}, string, "")
     |> HtmlEntities.decode()
