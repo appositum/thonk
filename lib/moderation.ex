@@ -50,14 +50,14 @@ defmodule Thonk.Moderation do
       {"ID", member.user.id},
       {"Username", member.user.username},
       {"Nickname", nickname},
-      {"Tag", member.user.discriminator},
-      {"Roles", roles},
-      {"Joined", member.joined_at}
+      {"Tag", member.user.discriminator}
     ]
 
     Enum.reduce(infos, %Embed{color: @yellow}, fn {name, value}, embed ->
       Embed.field(embed, name, value, inline: true)
     end)
+    |> Embed.field("Roles [#{length(roles)}]", Enum.join(roles, ", "))
+    |> Embed.field("Joined", member.joined_at)
     |> Embed.thumbnail(avatar)
     |> Embed.send()
   end
