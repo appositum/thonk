@@ -12,7 +12,7 @@ defmodule Thonk.Moderation do
   Cogs.def set_prefix(new_prefix) do
     {:ok, guild} = Cogs.guild()
 
-    case Utils.admin_check(guild, message.author.id) do
+    case Utils.check_admin(guild, message.author.id) do
       false ->
         Cogs.say("You are not an administrator!")
       true ->
