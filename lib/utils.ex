@@ -1,6 +1,9 @@
 defmodule Thonk.Utils do
   alias Alchemy.Permissions
 
+  @doc """
+  How long the application has been up.
+  """
   def uptime do
     {time, _} = :erlang.statistics(:wall_clock)
     min = div(time, 1000 * 60)
@@ -16,6 +19,9 @@ defmodule Thonk.Utils do
 
   @spec admin_check(%Alchemy.Guild{}, String.t) :: boolean
   def admin_check(guild, user_id) do
+  @doc """
+  Checks for administrator permission given the guild struct and a user ID.
+  """
     member = guild.members
     |> Enum.find(&(&1.user.id == user_id))
 

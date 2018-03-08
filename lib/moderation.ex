@@ -6,6 +6,9 @@ defmodule Thonk.Moderation do
 
   @yellow 0xfac84b
 
+  @doc """
+  Set a new prefix for the bot (administrator permission is needed).
+  """
   Cogs.def set_prefix(new_prefix) do
     {:ok, guild} = Cogs.guild()
 
@@ -19,6 +22,9 @@ defmodule Thonk.Moderation do
     end
   end
 
+  @doc """
+  Informatino about some user (work in progress).
+  """
   Cogs.def userinfo do
     {:ok, guild_id} = Cogs.guild_id()
     {:ok, member} = Client.get_member(guild_id, message.author.id)
@@ -56,6 +62,9 @@ defmodule Thonk.Moderation do
     |> Embed.send()
   end
 
+  @doc """
+  Information about the bot.
+  """
   Cogs.def info do
     {:ok, app_version} = :application.get_key(:thonk, :vsn)
     {:ok, lib_version} = :application.get_key(:alchemy, :vsn)
