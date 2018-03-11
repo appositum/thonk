@@ -18,9 +18,7 @@ defmodule Thonk.Basic do
   @doc """
   Gets a random xkcd comic.
   """
-  Cogs.def xkcd do
-    Cogs.say("https://xkcd.com/#{Enum.random(1..1964)}")
-  end
+  Cogs.def xkcd, do: Cogs.say("https://xkcd.com/#{Enum.random(1..1964)}")
 
   @doc """
   Roll dice.
@@ -48,8 +46,7 @@ defmodule Thonk.Basic do
   end
 
   @doc """
-  @moduledoc """
-  Plays a gemidao in a voice channel.
+  Plays a gemidao do zap in a voice channel.
   """
   Cogs.def gemidao do
     {:ok, guild} = Cogs.guild()
