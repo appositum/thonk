@@ -13,7 +13,7 @@ use Mix.Config
 config :porcelain, driver: Porcelain.Driver.Basic
 config :thonk,
   token: "your token",
-  prefix: "command prefix (t$ by default)"
+  prefix: "command prefix"
 
 # Necessary to voice functionality
 config :alchemy,
