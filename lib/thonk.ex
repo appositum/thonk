@@ -22,6 +22,5 @@ defmodule Thonk do
   defp load_modules do
     use Thonk.Basic
     use Thonk.Events
-    use Thonk.Moderation
   end
 end
