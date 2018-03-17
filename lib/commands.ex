@@ -121,18 +121,22 @@ defmodule Thonk.Commands do
   end
 
   Cogs.def color(hex) do
-    case CssColors.parse(hex) do
-      {:ok, color} ->
-        to_string(color)
-        |> String.graphemes()
-        |> Enum.drop(1)
-        |> Enum.join()
-        |> Utils.color_embed()
-        |> Embed.send("", file: "lib/assets/color.jpg")
+    pattern1 = ~r/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    pattern2 = ~r/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
 
-        File.rm("lib/assets/color.jpg")
-      {:error, _} ->
-        Cogs.say(":exclamation: Invalid hexadecimal")
-    end
+    color =
+      cond do
+        Regex.match?(pattern1, hex) -> hex
+        Regex.match?(pattern2, hex) -> "#" <> hex
+        true ->
+          case CssColors.parse(hex) do
+            {:ok, _} ->
+              Utils.color_embed(hex)
+              |> Embed.send("", file: "lib/assets/color.jpg")
+
+            {:error, _} ->
+              Cogs.say(":exclamation: **Invalid hexadecimal**")
+          end
+      end
   end
 end

@@ -101,8 +101,7 @@ defmodule Thonk.Utils do
 
   @spec color_embed(String.t()) :: %Embed{}
   def color_embed(color_hex) do
-    {color_integer, _} = Code.eval_string("0x#{color_hex}") # color number for the embed
-    color = CssColors.parse!("##{color_hex}") # color struct
+    color = CssColors.parse!(color_hex) # color struct
 
     hue = trunc CssColors.hsl(color).hue
     lightness = trunc CssColors.hsl(color).lightness * 100
@@ -115,6 +114,13 @@ defmodule Thonk.Utils do
     |> Mogrify.canvas(to_string(color))
     |> Mogrify.create(path: "./lib/assets/")
 
+    # Remove "#" symbol
+    color_hex = to_string(color)
+    |> String.graphemes()
+    |> Enum.drop(1)
+    |> Enum.join()
+
+    {color_integer, _} = Code.eval_string("0x#{color_hex}") # color number for the embed
     %Embed{color: color_integer, title: to_string(color)}
     |> Embed.field("RGB", rgb)
     |> Embed.field("HSL", hsl)
