@@ -1,4 +1,6 @@
 defmodule Thonk.Utils do
+  require Alchemy.Embed, as: Embed
+
   @doc """
   How long the application has been up.
   """
@@ -14,7 +16,6 @@ defmodule Thonk.Utils do
       {t, glyph}, acc -> " #{t}" <> glyph <> acc
     end)
   end
-
 
   @doc """
   Check if some string exceeds discod's characters limit (2000).
@@ -35,7 +36,6 @@ defmodule Thonk.Utils do
     end
   end
 
-
   @spec fetch_page(number) :: {String.t, String.t}
   defp fetch_page(page_number) do
     res = HTTPoison.get!("https://www.xvideos.com/porn/portugues/#{page_number}")
@@ -48,7 +48,6 @@ defmodule Thonk.Utils do
       {title, video_ref}
     end)
   end
-
 
   @spec get_comment :: {String.t, map}
   def get_comment do
@@ -70,11 +69,55 @@ defmodule Thonk.Utils do
     end
   end
 
-
   @spec escape(String.t()) :: String.t()
   def escape(string) do
     Regex.replace(~r{</?(a|A).*?>}, string, "")
     |> HtmlEntities.decode()
     |> String.replace("<br />", "\n")
+  end
+
+  @doc """
+  Generate a random color in hexadecimal.
+
+  ## Examples
+      iex> Thonk.Utils.color_random()
+      "FCFB5E"
+  """
+  def color_random do
+    color_random([])
+    |> Enum.map(&to_string/1)
+    |> Enum.join()
+  end
+
+  defp color_random(list) do
+    case length(list) do
+      6 ->
+        list
+      _ ->
+        hex_digit = Enum.random(0..15) |> Integer.to_charlist(16)
+        color_random([hex_digit | list])
+    end
+  end
+
+  @spec color_embed(String.t()) :: %Embed{}
+  def color_embed(color_hex) do
+    {color_integer, _} = Code.eval_string("0x#{color_hex}") # color number for the embed
+    color = CssColors.parse!("##{color_hex}") # color struct
+
+    hue = trunc CssColors.hsl(color).hue
+    lightness = trunc CssColors.hsl(color).lightness * 100
+    saturation = trunc CssColors.hsl(color).saturation * 100
+    hsl = "#{hue}, #{lightness}%, #{saturation}%"
+    rgb = "#{trunc(color.red)}, #{trunc(color.green)}, #{trunc(color.blue)}"
+
+    %Mogrify.Image{path: "color.jpg", ext: "jpg"}
+    |> Mogrify.custom("size", "80x80")
+    |> Mogrify.canvas(to_string(color))
+    |> Mogrify.create(path: "./lib/assets/")
+
+    %Embed{color: color_integer, title: to_string(color)}
+    |> Embed.field("RGB", rgb)
+    |> Embed.field("HSL", hsl)
+    |> Embed.thumbnail("attachment://color.jpg")
   end
 end
