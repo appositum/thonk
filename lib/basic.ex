@@ -116,6 +116,8 @@ defmodule Thonk.Basic do
     Utils.color_random()
     |> Utils.color_embed()
     |> Embed.send("", file: "lib/assets/color.jpg")
+
+    File.rm("lib/assets/color.jpg")
   end
 
   Cogs.def color(hex) do
@@ -128,6 +130,7 @@ defmodule Thonk.Basic do
         |> Utils.color_embed()
         |> Embed.send("", file: "lib/assets/color.jpg")
 
+        File.rm("lib/assets/color.jpg")
       {:error, _} ->
         Cogs.say(":exclamation: Invalid hexadecimal")
     end
