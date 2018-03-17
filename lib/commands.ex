@@ -130,13 +130,19 @@ defmodule Thonk.Commands do
         Regex.match?(pattern2, hex) -> "#" <> hex
         true ->
           case CssColors.parse(hex) do
-            {:ok, _} ->
-              Utils.color_embed(hex)
-              |> Embed.send("", file: "lib/assets/color.jpg")
-
-            {:error, _} ->
-              Cogs.say(":exclamation: **Invalid hexadecimal**")
+            {:ok, _} -> hex
+            {:error, _} -> :error
           end
       end
+
+    case color do
+      :error ->
+        Cogs.say(":exclamation: **Invalid hexadecimal**")
+      color ->
+        Utils.color_embed(color)
+        |> Embed.send("", file: "lib/assets/color.jpg")
+
+        File.rm("lib/assets/color.jpg")
+    end
   end
 end
