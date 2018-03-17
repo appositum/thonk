@@ -113,7 +113,7 @@ defmodule Thonk.Commands do
   Generate a random color or get info about a specific color.
   """
   Cogs.def color do
-    Utils.color_random()
+    "#" <> Utils.color_random()
     |> Utils.color_embed()
     |> Embed.send("", file: "lib/assets/color.jpg")
 
