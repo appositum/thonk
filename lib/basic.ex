@@ -1,4 +1,4 @@
-defmodule Thonk.Commands do
+defmodule Thonk.Basic do
   use Alchemy.Cogs
   alias Thonk.Utils
   alias Alchemy.{Client, Voice}
@@ -82,7 +82,7 @@ defmodule Thonk.Commands do
 
       {:error, reason} ->
         Logger.error(reason)
-        Cogs.say(":exclamation: #{reason}")
+        Cogs.say(":exclamation: **#{reason}**")
     end
   end
 
@@ -104,17 +104,9 @@ defmodule Thonk.Commands do
   end
 
   @doc """
-  Generate a random color or get info about a specific color.
+  Get info about a specific color.
   """
-  Cogs.def color do
-    "#" <> Utils.color_random()
-    |> Utils.color_embed()
-    |> Embed.send("", file: "lib/assets/color.jpg")
-
-    File.rm("lib/assets/color.jpg")
-  end
-
-  Cogs.def color(hex) do
+  Cogs.def color(hex \\ "") do
     pattern1 = ~r/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
     pattern2 = ~r/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
 
