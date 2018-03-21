@@ -1,4 +1,5 @@
-defmodule Thonk.Random do
+defmodule Thonk.Commands.Random do
+  @moduledoc false
   use Alchemy.Cogs
   alias Thonk.Utils
   require Alchemy.Embed, as: Embed
