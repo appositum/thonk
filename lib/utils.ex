@@ -140,4 +140,24 @@ defmodule Thonk.Utils do
     |> Embed.field("HSL", hsl)
     |> Embed.thumbnail("attachment://color.jpg")
   end
+
+  @doc """
+  Make a request to pastebin or hastebin.
+  """
+  def bin(id, res) do
+    case res.status_code do
+      200 ->
+        msg = "```#{res.body}```"
+        if Utils.message_exceed?(msg) do
+          ":exclamation: **That content exceeds the characters limit!**"
+        else
+          msg
+        end
+      404 ->
+        ":exclamation: **Link not found**"
+      status ->
+        Logger.info("Unexpected status code: #{status}")
+        "**An unexpected error has occurred.**"
+    end
+  end
 end
