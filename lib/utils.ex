@@ -2,6 +2,7 @@ defmodule Thonk.Utils do
   @moduledoc """
   Utilities functions to be used on the bot's Cogs.
   """
+  require Logger
   require Alchemy.Embed, as: Embed
 
   def uptime do
@@ -144,11 +145,11 @@ defmodule Thonk.Utils do
   @doc """
   Make a request to pastebin or hastebin.
   """
-  def bin(id, res) do
+  def bin(res) do
     case res.status_code do
       200 ->
         msg = "```#{res.body}```"
-        if Utils.message_exceed?(msg) do
+        if message_exceed?(msg) do
           ":exclamation: **That content exceeds the characters limit!**"
         else
           msg
