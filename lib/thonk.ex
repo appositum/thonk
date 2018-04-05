@@ -22,6 +22,5 @@ defmodule Thonk do
   defp load_modules do
     use Thonk.Events
     use Thonk.Commands.Basic
-    use Thonk.Commands.Random
   end
 end
