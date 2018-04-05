@@ -32,8 +32,8 @@ defmodule Thonk.Commands.Basic do
       {"Library", "[Alchemy #{lib_version}](https://github.com/cronokirby/alchemy)"},
       {"Owner", "[appositum#7545](https://github.com/appositum)"},
       {"Guilds", "#{length(guilds)}"},
-      {"Processes", "#{length :erlang.processes()}"},
-      {"Memory Usage", "#{div :erlang.memory(:total), 1_000_000} MB"}
+      {"Processes", "#{length(:erlang.processes())}"},
+      {"Memory Usage", "#{div(:erlang.memory(:total), 1_000_000)} MB"}
     ]
 
     Enum.reduce(infos, %Embed{color: @yellow, title: "Thonk"}, fn {name, value}, embed ->
@@ -106,53 +106,5 @@ defmodule Thonk.Commands.Basic do
     |> Embed.thumbnail(picture_link)
     |> Embed.footer(text: "#{date} • Requested by #{message.author.username}##{message.author.discriminator}")
     |> Embed.send()
-  end
-
-  @doc """
-  Get info about a specific color.
-  """
-  Cogs.def color(hex \\ "") do
-    pattern1 = ~r/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
-    pattern2 = ~r/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
-
-    color =
-      cond do
-        Regex.match?(pattern1, hex) -> hex
-        Regex.match?(pattern2, hex) -> "#" <> hex
-        true ->
-          # named colors
-          case CssColors.parse(hex) do
-            {:ok, _} -> hex
-            {:error, _} -> :error
-          end
-      end
-
-    case color do
-      :error ->
-        Cogs.say(":exclamation: **Invalid color**")
-      color ->
-        Utils.color_embed(color)
-        |> Embed.send("", file: "lib/assets/color.jpg")
-
-        File.rm("lib/assets/color.jpg")
-    end
-  end
-
-  @doc """
-  Get the contents of a pastebin link from a key.
-  """
-  Cogs.def pastebin(id) do
-    res = HTTPoison.get!("https://pastebin.com/raw/#{id}")
-    Utils.bin(res)
-    |> Cogs.say()
-  end
-
-  @doc """
-  Get the contents of a hastebin link from a key.
-  """
-  Cogs.def hastebin(id) do
-    res = HTTPoison.get!("https://hastebin.com/raw/#{id}")
-    Utils.bin(res)
-    |> Cogs.say()
   end
 end
