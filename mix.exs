@@ -21,7 +21,7 @@ defmodule Thonk.MixProject do
   defp deps do
     [
       {:alchemy, "~> 0.6.0", hex: :discord_alchemy},
-      {:floki, "~> 0.20.0"},
+      {:floki, "~> 0.20.0"}
     ]
   end
 end

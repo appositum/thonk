@@ -15,18 +15,20 @@ defmodule Thonk.Events do
     0xFFF12E, # yellow3
     0xFF6161, # red1
     0xFF5460, # red2
-    0xBA7049, # brown
+    0xBA7049  # brown
   ]
 
   Events.on_ready(:ready)
+  Events.on_message(:command_log)
+  Events.on_message(:oh_no)
+
   def ready(_, _) do
-    me = "#{Cache.user.username}##{Cache.user.discriminator} (#{Cache.user.id})"
+    me = "#{Cache.user().username}##{Cache.user().discriminator} (#{Cache.user().id})"
     Logger.info("Logged in as #{me}")
     Logger.info("Bot ready")
   end
 
-  Events.on_message(:on_message)
-  def on_message(message) do
+  def command_log(message) do
     prefix = Application.get_env(:thonk, :prefix)
 
     if String.starts_with?(message.content, prefix) do
@@ -46,9 +48,8 @@ defmodule Thonk.Events do
     end
   end
 
-  Events.on_message(:oh_no)
   def oh_no(message) do
-    if message.content == "oh no" && message.author.id != Cache.user.id do
+    if message.content == "oh no" && message.author.id != Cache.user().id do
       %Embed{}
       |> Embed.image("https://www.raylu.net/f/ohno/ohno#{Enum.random(1..53)}.png")
       |> Embed.color(Enum.random(@colors))

@@ -7,9 +7,10 @@ defmodule Thonk.Commands.Helper do
   end
 
   def general do
-    commands = Cogs.all_commands()
-    |> Map.keys()
-    |> Enum.join("\n")
+    commands =
+      Cogs.all_commands()
+      |> Map.keys()
+      |> Enum.join("\n")
   end
 
   # TODO
