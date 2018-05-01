@@ -8,6 +8,13 @@ defmodule Thonk.Commands.Basic do
 
   @yellow 0xFAC84B
 
+  Cogs.def ping do
+    old = Time.utc_now()
+    {:ok, message} = Cogs.say("Pong!")
+    time = Time.diff(Time.utc_now(), old, :millisecond)
+    Client.edit_message(message, "Pong! :ping_pong: took **#{time} ms**")
+  end
+
   Cogs.def help do
     commands =
       Cogs.all_commands()
