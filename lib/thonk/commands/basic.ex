@@ -38,7 +38,7 @@ defmodule Thonk.Commands.Basic do
       {"Version", "#{app_version}"},
       {"Elixir Version", System.version()},
       {"Library", "[Alchemy #{lib_version}](https://github.com/cronokirby/alchemy)"},
-      {"Owner", "[appositum#7545](https://github.com/appositum)"},
+      {"Owner", "[appositum#1888](https://github.com/appositum)"},
       {"Guilds", "#{length(guilds)}"},
       {"Processes", "#{length(:erlang.processes())}"},
       {"Memory Usage", "#{div(:erlang.memory(:total), 1_000_000)} MB"}
