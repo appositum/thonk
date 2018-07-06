@@ -3,6 +3,12 @@ defmodule Thonk.Utils do
   Utilities functions to be used on the bot's Cogs.
   """
 
+  @type message :: String.t()
+  @type video_id :: String.t()
+  @type video_title :: String.t()
+  @type video_info :: {video_title, video_id}
+  @type comment_info :: map
+
   def uptime do
     {time, _} = :erlang.statistics(:wall_clock)
     min = div(time, 1000 * 60)
@@ -20,14 +26,14 @@ defmodule Thonk.Utils do
   Check if some string exceeds discord's characters limit (2000).
   Returns `true` of `false`.
   """
-  @spec message_exceed?(String.t()) :: boolean
+  @spec message_exceed?(message) :: boolean
   def message_exceed?(s), do: String.length(s) > 2000
 
   @doc """
   Check if some string exceeds discord's characters limit (2000).
   If so, returns a warning string with a hastebin link containing the output.
   """
-  @spec message_exceed(String.t()) :: String.t()
+  @spec message_exceed(message) :: message
   def message_exceed(input) do
     size = String.length(input)
 
@@ -48,7 +54,7 @@ defmodule Thonk.Utils do
     end
   end
 
-  @spec fetch_page(number) :: {String.t(), String.t()}
+  @spec fetch_page(number) :: video_info
   defp fetch_page(page_number) do
     res = HTTPoison.get!("https://www.xvideos.com/porn/portugues/#{page_number}")
 
@@ -62,7 +68,7 @@ defmodule Thonk.Utils do
     end)
   end
 
-  @spec get_comment :: {String.t(), map}
+  @spec get_comment :: {video_title, comment_info}
   def get_comment do
     videos = fetch_page(Enum.random(1..40))
     [{title, video_ref}] = Enum.take_random(videos, 1)
