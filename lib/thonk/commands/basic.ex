@@ -88,7 +88,7 @@ defmodule Thonk.Commands.Basic do
   Cogs.def gemidao do
     case Cogs.guild() do
       {:ok, guild} ->
-        voice_channel = Enum.find(guild.channels, &match?(%{type: :voice}, &1))
+        voice_channel = Enum.find(guild.channels, &match?(%Channel.VoiceChannel{}, &1))
         Voice.join(guild.id, voice_channel.id)
         Voice.play_file(guild.id, "lib/assets/gemidao.mp3")
 
