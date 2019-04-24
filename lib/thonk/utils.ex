@@ -46,7 +46,7 @@ defmodule Thonk.Utils do
           |> Poison.decode!()
           |> Map.get("key")
 
-        ":warning: **The command output exceeded the characters limit!" <>
+        ":warning: **The command output exceeded the characters limit! " <>
           "(`#{size}/2000`)\nYou can check it out here: https://hastebin.com/#{link}**"
 
       true ->
