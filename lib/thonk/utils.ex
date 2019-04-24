@@ -55,12 +55,12 @@ defmodule Thonk.Utils do
   end
 
   @spec fetch_page(number) :: video_info
-  defp fetch_page(page_number) do
-    res = HTTPoison.get!("https://www.xvideos.com/porn/portugues/#{page_number}")
+  def fetch_page(page_number) do
+    res = HTTPoison.get!("https://www.xvideos.com/lang/portugues/#{page_number}")
 
     res.body
     |> Floki.parse()
-    |> Floki.find(".thumb-block > p > a")
+    |> Floki.find(".thumb-under > p > a")
     |> Enum.map(fn {_tag, info, _title} ->
       [{_, href}, {_, title}] = info
       [_, video_ref] = Regex.run(~r{/video(\d+)/.*}, href)
@@ -73,12 +73,13 @@ defmodule Thonk.Utils do
     videos = fetch_page(Enum.random(1..40))
     [{title, video_ref}] = Enum.take_random(videos, 1)
 
-    res = HTTPoison.get!("https://www.xvideos.com/video-get-comments/#{video_ref}/0")
+    res = HTTPoison.get!("https://www.xvideos.com/threads/video-comments/get-posts/top/#{video_ref}/0/0")
 
     comment =
       res.body
       |> Poison.decode!()
-      |> Map.get("comments")
+      |> Map.get("posts")
+      |> Map.get("posts")
       |> Enum.take_random(1)
 
     # Handle empty comments
@@ -86,8 +87,8 @@ defmodule Thonk.Utils do
       [] ->
         get_comment()
 
-      [c] ->
-        {title, Map.take(c, ["c", "n", "iu", "d"])}
+      [{_id, c}] ->
+        {title, Map.take(c, ["message", "name", "pic", "date"])}
     end
   end
 

@@ -85,18 +85,18 @@ defmodule Thonk.Commands.Basic do
   @doc """
   Plays a gemidao do zap in a voice channel.
   """
-  Cogs.def gemidao do
-    case Cogs.guild() do
-      {:ok, guild} ->
-        voice_channel = Enum.find(guild.channels, &match?(%Channel.VoiceChannel{}, &1))
-        Voice.join(guild.id, voice_channel.id)
-        Voice.play_file(guild.id, "lib/assets/gemidao.mp3")
+  #Cogs.def gemidao do
+  #  case Cogs.guild() do
+  #    {:ok, guild} ->
+  #      voice_channel = Enum.find(guild.channels, &match?(%Channel.VoiceChannel{}, &1))
+  #      Voice.join(guild.id, voice_channel.id)
+  #      Voice.play_file(guild.id, "lib/assets/gemidao.mp3")
 
-      {:error, reason} ->
-        Logger.error(reason)
-        Cogs.say(":exclamation: **#{reason}**")
-    end
-  end
+  #    {:error, reason} ->
+  #      Logger.error(reason)
+  #      Cogs.say(":exclamation: **#{reason}**")
+  #  end
+  #end
 
   @doc """
   Gets a random comment from brazilian porn on xvideos.
@@ -104,12 +104,8 @@ defmodule Thonk.Commands.Basic do
   Inspired by `https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos`.
   """
   Cogs.def xvideos do
-    {title, %{"c" => content, "n" => author, "iu" => picture, "d" => date}} = Utils.get_comment()
+    {title, %{"message" => content, "name" => author, "pic" => picture, "date" => date}} = Utils.get_comment()
     content = Utils.escape(content)
-
-    {_, picture_link} =
-      HTTPoison.get!("https://www.xvideos.com#{picture}").headers
-      |> Enum.find(&match?({"Location", _picture_link}, &1))
 
     %Embed{color: 0xE80000}
     |> Embed.author(
@@ -118,7 +114,7 @@ defmodule Thonk.Commands.Basic do
     )
     |> Embed.field("Título:", "**`#{title}`**")
     |> Embed.field("#{author} comentou:", "**`#{content}`**")
-    |> Embed.thumbnail(picture_link)
+    |> Embed.thumbnail(picture)
     |> Embed.footer(
       text: "#{date} • Requested by #{message.author.username}##{message.author.discriminator}"
     )
