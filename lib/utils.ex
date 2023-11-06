@@ -75,7 +75,7 @@ defmodule Thonk.Utils do
       [] ->
         get_comment()
       [c] ->
-        {title, Map.take(c, ["c", "n"])}
+        {title, Map.take(c, ["c", "n", "iu", "d"])}
     end
   end
 

@@ -93,14 +93,18 @@ defmodule Thonk.Commands.Basic do
   Inspired by `https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos`.
   """
   Cogs.def xvideos do
-    {title, %{"c" => content, "n" => author}} = Utils.get_comment()
-    title   = Utils.escape(title)
-    author  = Utils.escape(author)
+    {title, %{"c" => content, "n" => author, "iu" => picture, "d" => date}} = Utils.get_comment()
     content = Utils.escape(content)
+    {_, picture_link} = HTTPoison.get!("https://www.xvideos.com#{picture}").headers
+    |> Enum.find(&match?({"Location", _picture_link}, &1))
 
-    %Embed{color: 0xe80000, title: "XVideos"}
+
+    %Embed{color: 0xe80000}
+    |> Embed.author(name: "XVideos", icon_url: "http://cdn.appaix.com/2015/0116/xvideos-23_84fec.png")
     |> Embed.field("Título:", "**`#{title}`**")
     |> Embed.field("#{author} comentou:", "**`#{content}`**")
+    |> Embed.thumbnail(picture_link)
+    |> Embed.footer(text: "#{date} • Requested by #{message.author.username}##{message.author.discriminator}")
     |> Embed.send()
   end
 
