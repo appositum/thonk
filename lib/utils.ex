@@ -1,9 +1,6 @@
 defmodule Thonk.Utils do
   require Alchemy.Embed, as: Embed
 
-  @doc """
-  How long the application has been up.
-  """
   def uptime do
     {time, _} = :erlang.statistics(:wall_clock)
     min = div(time, 1000 * 60)
@@ -18,7 +15,7 @@ defmodule Thonk.Utils do
   end
 
   @doc """
-  Check if some string exceeds discod's characters limit (2000).
+  Check if some string exceeds discord's characters limit (2000).
   """
   def check_exceed(input) do
     size = String.length(input)
@@ -69,7 +66,7 @@ defmodule Thonk.Utils do
     end
   end
 
-  @spec escape(String.t()) :: String.t()
+  @spec escape(String.t) :: String.t
   def escape(string) do
     Regex.replace(~r{</?(a|A).*?>}, string, "")
     |> HtmlEntities.decode()
@@ -99,7 +96,7 @@ defmodule Thonk.Utils do
     end
   end
 
-  @spec color_embed(String.t()) :: %Embed{}
+  @spec color_embed(String.t) :: %Embed{}
   def color_embed(color_hex) do
     color = CssColors.parse!(color_hex) # color struct
 
