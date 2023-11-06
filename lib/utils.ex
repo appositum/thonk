@@ -1,6 +1,4 @@
 defmodule Thonk.Utils do
-  alias Alchemy.Permissions
-
   @doc """
   How long the application has been up.
   """
@@ -53,7 +51,7 @@ defmodule Thonk.Utils do
 
 
   @spec get_comment :: {String.t, map}
-  defp get_comment do
+  def get_comment do
     videos = fetch_page(Enum.random(1..40))
     [{title, video_ref}] = Enum.take_random(videos, 1)
 

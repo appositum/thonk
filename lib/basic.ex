@@ -97,7 +97,7 @@ defmodule Thonk.Basic do
   Inspired by `https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos`.
   """
   Cogs.def xvideos do
-    {title, %{"c" => content, "n" => author}} = get_comment()
+    {title, %{"c" => content, "n" => author}} = Utils.get_comment()
     title   = Utils.escape(title)
     author  = Utils.escape(author)
     content = Utils.escape(content)
