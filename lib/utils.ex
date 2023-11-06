@@ -17,22 +17,6 @@ defmodule Thonk.Utils do
     end)
   end
 
-  @doc """
-  Checks for administrator permission given the guild struct and a user ID.
-  """
-  @spec check_admin(Alchemy.Guild.t(), String.t()) :: boolean
-  def check_admin(guild, user_id) do
-    member = guild.members
-    |> Enum.find(&(&1.user.id == user_id))
-
-    roles = guild.roles
-    |> Enum.filter(fn role -> role.id in member.roles end)
-    |> Enum.map(fn role ->
-      Permissions.contains?(role.permissions, :administrator)
-    end)
-
-    true in roles
-  end
 
   @doc """
   Check if some string exceeds discod's characters limit (2000).
@@ -52,6 +36,42 @@ defmodule Thonk.Utils do
         input
     end
   end
+
+
+  @spec fetch_page(number) :: {String.t, String.t}
+  defp fetch_page(page_number) do
+    res = HTTPoison.get!("https://www.xvideos.com/porn/portugues/#{page_number}")
+    res.body
+    |> Floki.parse()
+    |> Floki.find(".thumb-block > p > a")
+    |> Enum.map(fn {_tag, info, _title} ->
+      [{_, href}, {_, title}] = info
+      [_, video_ref] = Regex.run(~r{/video(\d+)/.*}, href)
+      {title, video_ref}
+    end)
+  end
+
+
+  @spec get_comment :: {String.t, map}
+  defp get_comment do
+    videos = fetch_page(Enum.random(1..40))
+    [{title, video_ref}] = Enum.take_random(videos, 1)
+
+    res = HTTPoison.get!("https://www.xvideos.com/video-get-comments/#{video_ref}/0")
+    comment = res.body
+    |> Poison.decode!()
+    |> Map.get("comments")
+    |> Enum.take_random(1)
+
+    # Handle empty comments
+    case comment do
+      [] ->
+        get_comment()
+      [c] ->
+        {title, Map.take(c, ["c", "n"])}
+    end
+  end
+
 
   @spec escape(String.t()) :: String.t()
   def escape(string) do

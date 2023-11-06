@@ -6,6 +6,35 @@ defmodule Thonk.Basic do
 
   @yellow 0xfac84b
 
+  @doc """
+  Information about the bot.
+  """
+  Cogs.def info do
+    {:ok, app_version} = :application.get_key(:thonk, :vsn)
+    {:ok, lib_version} = :application.get_key(:alchemy, :vsn)
+    {:ok, guilds} = Client.get_current_guilds()
+
+    infos = [
+      {"Prefix", Application.get_env(:thonk, :prefix)},
+      {"Version", "#{app_version}"},
+      {"Elixir Version", System.version()},
+      {"Library", "[Alchemy #{lib_version}](https://github.com/cronokirby/alchemy)"},
+      {"Owner", "[appositum#7545](https://github.com/appositum)"},
+      {"Guilds", "#{length(guilds)}"},
+      {"Processes", "#{length :erlang.processes()}"},
+      {"Memory Usage", "#{div :erlang.memory(:total), 1_000_000} MB"}
+    ]
+
+    Enum.reduce(infos, %Embed{color: @yellow, title: "Thonk"}, fn {name, value}, embed ->
+      Embed.field(embed, name, value, inline: true)
+    end)
+    |> Embed.thumbnail("http://i.imgur.com/6YToyEF.png")
+    |> Embed.url("https://github.com/appositum/thonk")
+    |> Embed.footer(text: "Uptime: #{Utils.uptime()}")
+    |> Embed.send()
+  end
+
+
   Cogs.def help do
     commands = Cogs.all_commands()
     |> Map.keys()
@@ -15,10 +44,14 @@ defmodule Thonk.Basic do
     |> Embed.send()
   end
 
+
   @doc """
   Gets a random xkcd comic.
   """
-  Cogs.def xkcd, do: Cogs.say("https://xkcd.com/#{Enum.random(1..1964)}")
+  Cogs.def xkcd do
+    Cogs.say("https://xkcd.com/#{Enum.random(1..1964)}")
+  end
+
 
   @doc """
   Roll dice.
@@ -45,6 +78,7 @@ defmodule Thonk.Basic do
     end
   end
 
+
   @doc """
   Plays a gemidao do zap in a voice channel.
   """
@@ -55,6 +89,7 @@ defmodule Thonk.Basic do
     Voice.join(guild.id, voice_channel.id)
     Voice.play_file(guild.id, "lib/assets/gemidao.mp3")
   end
+
 
   @doc """
   Gets a random comment from brazilian porn on xvideos.
@@ -71,38 +106,5 @@ defmodule Thonk.Basic do
     |> Embed.field("Título:", "**`#{title}`**")
     |> Embed.field("#{author} comentou:", "**`#{content}`**")
     |> Embed.send()
-  end
-
-  @spec fetch_page(number) :: {String.t, String.t}
-  defp fetch_page(page_number) do
-    res = HTTPoison.get!("https://www.xvideos.com/porn/portugues/#{page_number}")
-    res.body
-    |> Floki.parse()
-    |> Floki.find(".thumb-block > p > a")
-    |> Enum.map(fn {_tag, info, _title} ->
-      [{_, href}, {_, title}] = info
-      [_, video_ref] = Regex.run(~r{/video(\d+)/.*}, href)
-      {title, video_ref}
-    end)
-  end
-
-  @spec get_comment :: {String.t, map}
-  defp get_comment do
-    videos = fetch_page(Enum.random(1..40))
-    [{title, video_ref}] = Enum.take_random(videos, 1)
-
-    res = HTTPoison.get!("https://www.xvideos.com/video-get-comments/#{video_ref}/0")
-    comment = res.body
-    |> Poison.decode!()
-    |> Map.get("comments")
-    |> Enum.take_random(1)
-
-    # Handle empty comments
-    case comment do
-      [] ->
-        get_comment()
-      [c] ->
-        {title, Map.take(c, ["c", "n"])}
-    end
   end
 end
