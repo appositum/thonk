@@ -2,8 +2,6 @@ defmodule Thonk.Utils do
   @moduledoc """
   Utilities functions to be used on the bot's Cogs.
   """
-  require Logger
-  require Alchemy.Embed, as: Embed
 
   def uptime do
     {time, _} = :erlang.statistics(:wall_clock)
