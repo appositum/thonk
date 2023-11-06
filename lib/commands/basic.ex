@@ -134,6 +134,31 @@ defmodule Thonk.Commands.Basic do
     end
   end
 
+  @doc """
+  Get the contents of a pastebin link from a key.
+  """
+  Cogs.def pastebin(id) do
+    {:ok, res} = HTTPoison.get("https://pastebin.com/raw/#{id}")
+
+    case res.status_code do
+      200 ->
+        msg = "```#{res.body}```"
+        if Utils.message_exceed?(msg) do
+          Cogs.say(":exclamation: **That pastebin content exceeds the characters limit!**")
+        else
+          Cogs.say(msg)
+        end
+      404 ->
+        Cogs.say(":exclamation: **Pastebin link not found**")
+      status ->
+        Logger.info("Unexpected status code: #{status}")
+        Cogs.say("**An unexpected error has occurred.**")
+    end
+  end
+
+  @doc """
+  Get the contents of a hastebin link from a key.
+  """
   Cogs.def hastebin(id) do
     {:ok, res} = HTTPoison.get("https://hastebin.com/raw/#{id}")
 
