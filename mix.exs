@@ -22,8 +22,6 @@ defmodule Thonk.MixProject do
     [
       {:alchemy, "~> 0.6.0", hex: :discord_alchemy},
       {:floki, "~> 0.20.0"},
-      {:mogrify_draw, "~> 0.1.0"},
-      {:css_colors, "~> 0.2.0"}
     ]
   end
 end
