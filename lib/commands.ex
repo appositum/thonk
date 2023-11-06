@@ -1,6 +1,6 @@
 defmodule Thonk.Commands do
   use Alchemy.Cogs
-  alias Alchemy.{Client, Voice}
+  alias Alchemy.Voice
   require Alchemy.Embed, as: Embed
 
   Cogs.def help do
