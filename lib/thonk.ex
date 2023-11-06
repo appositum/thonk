@@ -7,7 +7,6 @@ defmodule Thonk do
 
   def start(_type, _args) do
     run = Client.start(@token)
-    Client.update_status(playing: "OPA")
     load_modules()
     Cogs.set_prefix(@prefix)
     run
