@@ -1,4 +1,4 @@
-defmodule Thonk.Basic do
+defmodule Thonk.Commands do
   use Alchemy.Cogs
   alias Thonk.Utils
   alias Alchemy.{Client, Voice}
