@@ -30,12 +30,10 @@ defmodule Thonk.Events do
     prefix = Application.get_env(:thonk, :prefix)
 
     if String.starts_with?(message.content, prefix) do
-      command = message.content
-      |> String.split()
-      |> List.first()
-      |> String.graphemes()
-      |> Enum.drop(2)
-      |> Enum.join()
+      command =
+        with m <- message.content |> String.split() |> List.first() do
+          String.slice(m, 2, String.length(m))
+        end
 
       if command in Map.keys(Cogs.all_commands()) do
         id = message.author.id
