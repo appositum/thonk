@@ -23,12 +23,7 @@ defmodule Thonk.Utils do
   Returns `true` of `false`.
   """
   @spec message_exceed?(String.t) :: boolean
-  def message_exceed?(input) do
-    cond do
-      String.length(input) > 2000 -> true
-      true -> false
-    end
-  end
+  def message_exceed?(s), do: String.length(s) > 2000
 
   @doc """
   Check if some string exceeds discord's characters limit (2000).
