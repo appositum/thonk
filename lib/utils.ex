@@ -1,6 +1,6 @@
 defmodule Thonk.Utils do
   use Alchemy.Cogs
-  alias Alchemy.Client
+  alias Alchemy.{Cache, Client, Permissions, User}
   require Alchemy.Embed, as: Embed
 
   @yellow 0xfac84b
@@ -12,6 +12,19 @@ defmodule Thonk.Utils do
 
     %Embed{color: @yellow, title: "All available commands", description: commands}
     |> Embed.send()
+  end
+
+  Cogs.def set_prefix(new_prefix) do
+    {:ok, guild} = Cogs.guild()
+
+    case admin_check(guild, message.author.id) do
+      false ->
+        Cogs.say("You are not an administrator!")
+      true ->
+        Cogs.set_prefix(new_prefix)
+        Application.put_env(:thonk, :prefix, new_prefix)
+        Cogs.say("New prefix: `#{new_prefix}`")
+    end
   end
 
   Cogs.def info do
@@ -52,5 +65,20 @@ defmodule Thonk.Utils do
       {0, _glyph}, acc -> acc
       {t, glyph}, acc -> " #{t}" <> glyph <> acc
     end)
+  end
+
+  @spec admin_check(%Alchemy.Guild{}, String.t) :: boolean
+  defp admin_check(guild, user_id) do
+    member = guild.members
+    |> Enum.find(&(&1.user.id == user_id))
+
+    roles = guild.roles
+    |> Enum.filter(fn role -> role.id in member.roles end)
+    |> Enum.map(fn role ->
+      role.permissions
+      |> Permissions.contains?(role, :administrator)
+    end)
+
+    true in roles
   end
 end
