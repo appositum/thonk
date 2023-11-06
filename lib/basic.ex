@@ -48,12 +48,6 @@ defmodule Thonk.Basic do
   end
 
   @doc """
-  oh no
-  """
-  Cogs.def ohno do
-    Client.send_message(message.channel_id, "oh no", file: "lib/assets/ohno.png")
-  end
-
   @moduledoc """
   Plays a gemidao in a voice channel.
   """
