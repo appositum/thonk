@@ -16,8 +16,22 @@ defmodule Thonk.Utils do
 
   @doc """
   Check if some string exceeds discord's characters limit (2000).
+  Returns `true` of `false`.
   """
-  def check_exceed(input) do
+  @spec message_exceed?(String.t) :: boolean
+  def message_exceed?(input) do
+    cond do
+      String.length(input) > 2000 -> true
+      true -> false
+    end
+  end
+
+  @doc """
+  Check if some string exceeds discord's characters limit (2000).
+  If so, returns a warning string with a hastebin link containing the output.
+  """
+  @spec message_exceed(String.t) :: String.t
+  def message_exceed(input) do
     size = String.length(input)
 
     cond do
@@ -27,7 +41,7 @@ defmodule Thonk.Utils do
         |> Poison.decode!()
         |> Map.get("key")
 
-        ":warning: The command output exceeded the characters limit! (`#{size}/2000`)\nYou can check it out here: https://hastebin.com/#{link}"
+        ":warning: **The command output exceeded the characters limit! (`#{size}/2000`)\nYou can check it out here: https://hastebin.com/#{link}**"
       true ->
         input
     end
