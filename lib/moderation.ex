@@ -34,7 +34,6 @@ defmodule Thonk.Moderation do
     |> Enum.map(fn role -> {role.id, role.name} end)
     |> Enum.filter(fn {id, _role} -> id in member.roles end)
     |> Enum.map(fn {_id, role} -> role end)
-    |> Enum.join(", ")
 
     avatar = member.user
     |> User.avatar_url()
