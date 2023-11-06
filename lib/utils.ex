@@ -17,19 +17,18 @@ defmodule Thonk.Utils do
     end)
   end
 
-  @spec admin_check(%Alchemy.Guild{}, String.t) :: boolean
-  def admin_check(guild, user_id) do
   @doc """
   Checks for administrator permission given the guild struct and a user ID.
   """
+  @spec check_admin(%Alchemy.Guild{}, String.t) :: boolean
+  def check_admin(guild, user_id) do
     member = guild.members
     |> Enum.find(&(&1.user.id == user_id))
 
     roles = guild.roles
     |> Enum.filter(fn role -> role.id in member.roles end)
     |> Enum.map(fn role ->
-      role.permissions
-      |> Permissions.contains?(:administrator)
+      Permissions.contains?(role.permissions, :administrator)
     end)
 
     true in roles
@@ -38,7 +37,7 @@ defmodule Thonk.Utils do
   @doc """
   Check if some string exceeds discod's characters limit (2000).
   """
-  def exceed_check(input) do
+  def check_exceed(input) do
     size = String.length(input)
 
     cond do

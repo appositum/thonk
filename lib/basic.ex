@@ -35,7 +35,7 @@ defmodule Thonk.Basic do
         |> Enum.join(", ")
 
         ":game_die: You rolled **#{times}** times!\n**#{numbers}**"
-        |> Utils.exceed_check()
+        |> Utils.check_exceed()
         |> Cogs.say()
     end
   end
