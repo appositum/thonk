@@ -1,6 +1,6 @@
 defmodule Thonk.Fun do
   use Alchemy.Cogs
-  alias Alchemy.Voice
+  alias Alchemy.{Client, Voice}
   require Alchemy.Embed, as: Embed
 
   @doc """
