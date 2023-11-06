@@ -2,6 +2,7 @@ defmodule Thonk.Basic do
   use Alchemy.Cogs
   alias Thonk.Utils
   alias Alchemy.{Client, Voice}
+  require Logger
   require Alchemy.Embed, as: Embed
 
   @yellow 0xfac84b
@@ -83,11 +84,16 @@ defmodule Thonk.Basic do
   Plays a gemidao do zap in a voice channel.
   """
   Cogs.def gemidao do
-    {:ok, guild} = Cogs.guild()
-    voice_channel = Enum.find(guild.channels, &match?(%{type: :voice}, &1))
+    case Cogs.guild() do
+      {:ok, guild} ->
+        voice_channel = Enum.find(guild.channels, &match?(%{type: :voice}, &1))
+        Voice.join(guild.id, voice_channel.id)
+        Voice.play_file(guild.id, "lib/assets/gemidao.mp3")
 
-    Voice.join(guild.id, voice_channel.id)
-    Voice.play_file(guild.id, "lib/assets/gemidao.mp3")
+      {:error, reason} ->
+        Logger.error(reason)
+        Cogs.say(":exclamation: #{reason}")
+    end
   end
 
 
