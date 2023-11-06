@@ -1,4 +1,5 @@
-defmodule Thonk.Basic do
+defmodule Thonk.Commands.Basic do
+  @moduledoc false
   use Alchemy.Cogs
   alias Thonk.Utils
   alias Alchemy.{Client, Voice}
@@ -6,6 +7,15 @@ defmodule Thonk.Basic do
   require Alchemy.Embed, as: Embed
 
   @yellow 0xfac84b
+
+  Cogs.def help do
+    commands = Cogs.all_commands()
+    |> Map.keys()
+    |> Enum.join("\n")
+
+    %Embed{color: @yellow, title: "All available commands", description: commands}
+    |> Embed.send()
+  end
 
   @doc """
   Information about the bot.
@@ -35,15 +45,6 @@ defmodule Thonk.Basic do
     |> Embed.send()
   end
 
-  Cogs.def help do
-    commands = Cogs.all_commands()
-    |> Map.keys()
-    |> Enum.join("\n")
-
-    %Embed{color: @yellow, title: "All available commands", description: commands}
-    |> Embed.send()
-  end
-
   Cogs.def xkcd do
     Cogs.say("https://xkcd.com/#{Enum.random(1..1964)}")
   end
@@ -65,7 +66,7 @@ defmodule Thonk.Basic do
         |> Enum.join(", ")
 
         ":game_die: You rolled **#{times}** times!\n**#{numbers}**"
-        |> Utils.check_exceed()
+        |> Utils.message_exceed()
         |> Cogs.say()
     end
   end
@@ -115,6 +116,7 @@ defmodule Thonk.Basic do
         Regex.match?(pattern1, hex) -> hex
         Regex.match?(pattern2, hex) -> "#" <> hex
         true ->
+          # named colors
           case CssColors.parse(hex) do
             {:ok, _} -> hex
             {:error, _} -> :error
