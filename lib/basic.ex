@@ -35,7 +35,6 @@ defmodule Thonk.Basic do
     |> Embed.send()
   end
 
-
   Cogs.def help do
     commands = Cogs.all_commands()
     |> Map.keys()
@@ -45,14 +44,12 @@ defmodule Thonk.Basic do
     |> Embed.send()
   end
 
-
   @doc """
   Gets a random xkcd comic.
   """
   Cogs.def xkcd do
     Cogs.say("https://xkcd.com/#{Enum.random(1..1964)}")
   end
-
 
   @doc """
   Roll dice.
@@ -79,7 +76,6 @@ defmodule Thonk.Basic do
     end
   end
 
-
   @doc """
   Plays a gemidao do zap in a voice channel.
   """
@@ -96,7 +92,6 @@ defmodule Thonk.Basic do
     end
   end
 
-
   @doc """
   Gets a random comment from brazilian porn on xvideos.
 
@@ -112,5 +107,29 @@ defmodule Thonk.Basic do
     |> Embed.field("Título:", "**`#{title}`**")
     |> Embed.field("#{author} comentou:", "**`#{content}`**")
     |> Embed.send()
+  end
+
+  @doc """
+  Generate a random color or get info about a specific color.
+  """
+  Cogs.def color do
+    Utils.color_random()
+    |> Utils.color_embed()
+    |> Embed.send("", file: "lib/assets/color.jpg")
+  end
+
+  Cogs.def color(hex) do
+    case CssColors.parse(hex) do
+      {:ok, color} ->
+        to_string(color)
+        |> String.graphemes()
+        |> Enum.drop(1)
+        |> Enum.join()
+        |> Utils.color_embed()
+        |> Embed.send("", file: "lib/assets/color.jpg")
+
+      {:error, _} ->
+        Cogs.say(":exclamation: Invalid hexadecimal")
+    end
   end
 end
