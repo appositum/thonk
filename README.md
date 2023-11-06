@@ -1,6 +1,6 @@
-# Thonk
-
-### A Discord Bot
+<p align="center"><img src=".github/thonk.png" height="128" width="128"></p>
+<h1 align="center">Thonk</h1>
+<h3 align="center">A Discord Bot</h3>
 
 [![Erlang/OTP](https://img.shields.io/badge/Erlang/OTP-%E2%89%A520-c50096.svg)](http://erlang.org/doc/)
 [![Elixir](https://img.shields.io/badge/elixir-%E2%89%A51.5-75397d.svg)](https://elixir-lang.org/)
