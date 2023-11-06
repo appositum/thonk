@@ -43,11 +43,9 @@ defmodule Thonk.Utils do
       {"Memory Usage", "#{div :erlang.memory(:total), 1_000_000} MB"}
     ]
 
-    Enum.reduce infos, %Embed{}, fn {name, value}, embed ->
+    Enum.reduce(infos, %Embed{color: @yellow, title: "Thonk"}, fn {name, value}, embed ->
       Embed.field(embed, name, value, inline: true)
-    end
-    |> Embed.color(@yellow)
-    |> Embed.title("Thonk")
+    end)
     |> Embed.thumbnail("http://i.imgur.com/6YToyEF.png")
     |> Embed.url("https://github.com/appositum/thonk")
     |> Embed.footer(text: "Uptime: #{uptime()}")
