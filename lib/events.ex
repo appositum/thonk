@@ -40,7 +40,7 @@ defmodule Thonk.Events do
         username = message.author.username
         tag = message.author.discriminator
 
-        ~s/Command "#{prefix <> command}" called by <@#{id}> (#{username}\##{tag})/
+        ~s/Command "#{prefix <> command}" called by <@#{id}> (#{username}##{tag})/
         |> Logger.info()
       end
     end
