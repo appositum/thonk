@@ -20,6 +20,8 @@ defmodule Thonk.Events do
 
   Events.on_ready(:ready)
   def ready(_, _) do
+    me = "#{Cache.user.username}##{Cache.user.discriminator} (#{Cache.user.id})"
+    Logger.info("Logged in as #{me}")
     Logger.info("Bot ready")
   end
 
