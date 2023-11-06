@@ -2,19 +2,17 @@ defmodule Thonk do
   use Application
   alias Alchemy.{Client, Cogs}
 
-  @token Application.fetch_env(:thonk, :token)
-  @prefix Application.fetch_env!(:thonk, :prefix)
-
   def start(_type, _args) do
-    case @token do
-      {:ok, token} ->
-        bootstrap_start(token, @prefix)
-      :error ->
+    case Application.get_env(:thonk, :token) do
+      token ->
+        prefix = Application.fetch_env!(:thonk, :prefix)
+        bootstrap(token, prefix)
+      nil ->
         raise "TOKEN environment variable is not set"
     end
   end
 
-  defp bootstrap_start(token, prefix) do
+  defp bootstrap(token, prefix) do
     run = Client.start(token)
     load_modules()
     Cogs.set_prefix(prefix)
