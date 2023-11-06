@@ -46,8 +46,8 @@ defmodule Thonk.Events do
     end
   end
 
-  Events.on_message(:ohno)
-  def ohno(message) do
+  Events.on_message(:oh_no)
+  def oh_no(message) do
     if message.content == "oh no" && message.author.id != Cache.user.id do
       %Embed{}
       |> Embed.image("https://www.raylu.net/f/ohno/ohno#{Enum.random(1..53)}.png")
