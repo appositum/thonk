@@ -14,7 +14,6 @@ defmodule Thonk do
 
   defp load_modules do
     use Thonk.Events
-    use Thonk.Voice
-    use Thonk.Comment
+    use Thonk.Commands
   end
 end

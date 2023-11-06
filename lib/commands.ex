@@ -1,22 +1,55 @@
-defmodule Thonk.Comment do
+defmodule Thonk.Commands do
   use Alchemy.Cogs
-  alias Alchemy.Client
+  alias Alchemy.{Client, Voice}
+  require Alchemy.Embed, as: Embed
+
+  Cogs.def help do
+    commands = Cogs.all_commands()
+    |> Map.keys()
+    |> Enum.join("\n")
+
+    %Embed{
+      color: 0xfac84b,
+      title: "All available commands",
+      description: commands
+    }
+    |> Embed.send()
+  end
+
+  @doc """
+  Plays a song in a chat by the youtube URL.
+  """
+  Cogs.def play(url) do
+    {:ok, guild} = Cogs.guild()
+    default_voice_channel = Enum.find(guild.channels, &match?(%{type: :voice}, &1))
+
+    Voice.join(guild.id, default_voice_channel.id)
+    Voice.play_url(guild.id, url)
+    Cogs.say("Now playing #{url}")
+  end
 
   @doc """
   Gets a random comment from brazilian porn on xvideos.
 
   Inspired by `https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos`.
   """
-  Cogs.def comment do
-    {:ok, msg} = Client.send_message(message.channel_id, "**Pesquisando um comentário...**")
-
+  Cogs.def xvideos do
     {title, %{"c" => content, "n" => author}} = get_comment()
-    title   = HtmlEntities.decode(title)
-    author  = HtmlEntities.decode(author)
-    content = HtmlEntities.decode(content)
+    title   = escape(title)
+    author  = escape(author)
+    content = escape(content)
 
-    reply = ~s(**Pesquisando um comentário...**\n\n**Título:**\n`#{title}`\n\n**#{author} comentou:**\n`#{content}`)
-    Client.edit_message(msg, reply)
+    %Embed{color: 0xe80000, title: "**XVideos**"}
+    |> Embed.field("Título:", "`#{title}`")
+    |> Embed.field("#{author} comentou:", "`#{content}`")
+    |> Embed.send()
+  end
+
+  @spec escape(String.t) :: String.t
+  defp escape(string) do
+    Regex.replace(~r{</?(a|A).*?>}, string, "")
+    |> HtmlEntities.decode()
+    |> String.replace("<br />", "\n")
   end
 
   @spec fetch_page(number) :: {String.t, String.t}
