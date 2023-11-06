@@ -6,6 +6,7 @@ defmodule Thonk do
     case Application.get_env(:thonk, :token) do
       nil ->
         raise "TOKEN environment variable is not set"
+
       token ->
         prefix = Application.fetch_env!(:thonk, :prefix)
         bootstrap(token, prefix)

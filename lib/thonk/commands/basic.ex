@@ -6,12 +6,13 @@ defmodule Thonk.Commands.Basic do
   require Logger
   require Alchemy.Embed, as: Embed
 
-  @yellow 0xfac84b
+  @yellow 0xFAC84B
 
   Cogs.def help do
-    commands = Cogs.all_commands()
-    |> Map.keys()
-    |> Enum.join("\n")
+    commands =
+      Cogs.all_commands()
+      |> Map.keys()
+      |> Enum.join("\n")
 
     %Embed{color: @yellow, title: "All available commands", description: commands}
     |> Embed.send()
@@ -50,6 +51,7 @@ defmodule Thonk.Commands.Basic do
   end
 
   Cogs.set_parser(:roll, &List.wrap/1)
+
   Cogs.def roll(times) do
     times =
       case Integer.parse(times) do
@@ -60,10 +62,12 @@ defmodule Thonk.Commands.Basic do
     cond do
       times == 1 ->
         Cogs.say(":game_die: You rolled **#{Enum.random(1..6)}**!")
+
       true ->
-        numbers = Stream.repeatedly(fn -> Enum.random(1..6) end)
-        |> Enum.take(times)
-        |> Enum.join(", ")
+        numbers =
+          Stream.repeatedly(fn -> Enum.random(1..6) end)
+          |> Enum.take(times)
+          |> Enum.join(", ")
 
         ":game_die: You rolled **#{times}** times!\n**#{numbers}**"
         |> Utils.message_exceed()
@@ -95,16 +99,22 @@ defmodule Thonk.Commands.Basic do
   Cogs.def xvideos do
     {title, %{"c" => content, "n" => author, "iu" => picture, "d" => date}} = Utils.get_comment()
     content = Utils.escape(content)
-    {_, picture_link} = HTTPoison.get!("https://www.xvideos.com#{picture}").headers
-    |> Enum.find(&match?({"Location", _picture_link}, &1))
 
+    {_, picture_link} =
+      HTTPoison.get!("https://www.xvideos.com#{picture}").headers
+      |> Enum.find(&match?({"Location", _picture_link}, &1))
 
-    %Embed{color: 0xe80000}
-    |> Embed.author(name: "XVideos", icon_url: "http://cdn.appaix.com/2015/0116/xvideos-23_84fec.png")
+    %Embed{color: 0xE80000}
+    |> Embed.author(
+      name: "XVideos",
+      icon_url: "http://cdn.appaix.com/2015/0116/xvideos-23_84fec.png"
+    )
     |> Embed.field("Título:", "**`#{title}`**")
     |> Embed.field("#{author} comentou:", "**`#{content}`**")
     |> Embed.thumbnail(picture_link)
-    |> Embed.footer(text: "#{date} • Requested by #{message.author.username}##{message.author.discriminator}")
+    |> Embed.footer(
+      text: "#{date} • Requested by #{message.author.username}##{message.author.discriminator}"
+    )
     |> Embed.send()
   end
 end
