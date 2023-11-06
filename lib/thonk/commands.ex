@@ -1,6 +1,5 @@
 defmodule Thonk.Commands do
   use Alchemy.Cogs
-  alias Alchemy.Voice
   require Alchemy.Embed, as: Embed
 
   Cogs.def help do
@@ -10,18 +9,6 @@ defmodule Thonk.Commands do
 
     %Embed{color: 0xfac84b, title: "All available commands", description: commands}
     |> Embed.send()
-  end
-
-  @doc """
-  Plays a song in a chat by the youtube URL.
-  """
-  Cogs.def play(url) do
-    {:ok, guild} = Cogs.guild()
-    default_voice_channel = Enum.find(guild.channels, &match?(%{type: :voice}, &1))
-
-    Voice.join(guild.id, default_voice_channel.id)
-    Voice.play_url(guild.id, url)
-    Cogs.say("Now playing #{url}")
   end
 
   @doc """
@@ -35,7 +22,7 @@ defmodule Thonk.Commands do
     author  = escape(author)
     content = escape(content)
 
-    %Embed{color: 0xe80000, title: "**XVideos**"}
+    %Embed{color: 0xe80000, title: "XVideos"}
     |> Embed.field("Título:", "**`#{title}`**")
     |> Embed.field("#{author} comentou:", "**`#{content}`**")
     |> Embed.send()
