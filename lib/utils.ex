@@ -18,25 +18,22 @@ defmodule Thonk.Utils do
     {:ok, app_version} = :application.get_key(:thonk, :vsn)
     {:ok, lib_version} = :application.get_key(:alchemy, :vsn)
     {:ok, guilds} = Client.get_current_guilds()
-    guilds = length(guilds)
-
-    memory = div :erlang.memory(:total), 1_000_000
-    processes = length :erlang.processes()
 
     infos = [
       {"Prefix", Application.get_env(:thonk, :prefix)},
       {"Version", "#{app_version}"},
       {"Elixir Version", System.version()},
       {"Library", "[Alchemy #{lib_version}](https://github.com/cronokirby/alchemy)"},
-      {"Author", "[appositum#7545](https://github.com/appositum)"},
-      {"Guilds", "#{guilds}"},
-      {"Processes", "#{processes}"},
-      {"Memory Usage", "#{memory} MB"}
+      {"Owner", "[appositum#7545](https://github.com/appositum)"},
+      {"Guilds", "#{length(guilds)}"},
+      {"Processes", "#{length :erlang.processes()}"},
+      {"Memory Usage", "#{div :erlang.memory(:total), 1_000_000} MB"}
     ]
 
-    Enum.reduce(infos, %Embed{color: @yellow}, fn {name, value}, embed ->
+    Enum.reduce infos, %Embed{}, fn {name, value}, embed ->
       Embed.field(embed, name, value, inline: true)
-    end)
+    end
+    |> Embed.color(@yellow)
     |> Embed.title("Thonk")
     |> Embed.thumbnail("http://i.imgur.com/6YToyEF.png")
     |> Embed.url("https://github.com/appositum/thonk")
