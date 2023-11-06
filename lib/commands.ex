@@ -44,16 +44,10 @@ defmodule Thonk.Commands do
     |> Embed.send()
   end
 
-  @doc """
-  Gets a random xkcd comic.
-  """
   Cogs.def xkcd do
     Cogs.say("https://xkcd.com/#{Enum.random(1..1964)}")
   end
 
-  @doc """
-  Roll dice.
-  """
   Cogs.set_parser(:roll, &List.wrap/1)
   Cogs.def roll(times) do
     times =
