@@ -40,8 +40,8 @@ defmodule Thonk.Commands do
     content = escape(content)
 
     %Embed{color: 0xe80000, title: "**XVideos**"}
-    |> Embed.field("Título:", "`#{title}`")
-    |> Embed.field("#{author} comentou:", "`#{content}`")
+    |> Embed.field("Título:", "**`#{title}`**")
+    |> Embed.field("#{author} comentou:", "**`#{content}`**")
     |> Embed.send()
   end
 
