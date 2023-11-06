@@ -133,4 +133,23 @@ defmodule Thonk.Commands.Basic do
         File.rm("lib/assets/color.jpg")
     end
   end
+
+  Cogs.def hastebin(id) do
+    {:ok, res} = HTTPoison.get("https://hastebin.com/raw/#{id}")
+
+    case res.status_code do
+      200 ->
+        msg = "```#{res.body}```"
+        if Utils.message_exceed?(msg) do
+          Cogs.say(":exclamation: **That hastebin content exceeds the characters limit!**")
+        else
+          Cogs.say(msg)
+        end
+      404 ->
+        Cogs.say(":exclamation: **Hastebin link not found**")
+      status ->
+        Logger.info("Unexpected status code: #{status}")
+        Cogs.say("**An unexpected error has occurred.**")
+    end
+  end
 end
