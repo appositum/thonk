@@ -137,7 +137,7 @@ defmodule Thonk.Commands do
 
     case color do
       :error ->
-        Cogs.say(":exclamation: **Invalid hexadecimal**")
+        Cogs.say(":exclamation: **Invalid color**")
       color ->
         Utils.color_embed(color)
         |> Embed.send("", file: "lib/assets/color.jpg")
