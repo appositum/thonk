@@ -47,7 +47,7 @@ defmodule Thonk.Comment do
       nil ->
         get_comment()
       _ ->
-        {title, Map.take(info, ["c", "n"])}
+        {title, Map.take(comment, ["c", "n"])}
     end
   end
 end
