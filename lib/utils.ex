@@ -1,4 +1,7 @@
 defmodule Thonk.Utils do
+  @moduledoc """
+  Utilities functions to be used on the bot's Cogs.
+  """
   require Alchemy.Embed, as: Embed
 
   def uptime do
