@@ -139,7 +139,7 @@ defmodule Thonk.Commands.Basic do
   """
   Cogs.def pastebin(id) do
     res = HTTPoison.get!("https://pastebin.com/raw/#{id}")
-    Utils.bin(id, res)
+    Utils.bin(res)
     |> Cogs.say()
   end
 
@@ -148,7 +148,7 @@ defmodule Thonk.Commands.Basic do
   """
   Cogs.def hastebin(id) do
     res = HTTPoison.get!("https://hastebin.com/raw/#{id}")
-    Utils.bin(id, res)
+    Utils.bin(res)
     |> Cogs.say()
   end
 end
