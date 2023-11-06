@@ -19,7 +19,8 @@ defmodule Thonk.Commands.Random do
     |> Poison.decode!()
     |> Map.get("file")
 
-    %Embed{image: image}
+    %Embed{}
+    |> Embed.image(image)
     |> Embed.send()
   end
 
@@ -28,7 +29,8 @@ defmodule Thonk.Commands.Random do
     |> Poison.decode!()
     |> Map.get("url")
 
-    %Embed{image: image}
+    %Embed{}
+    |> Embed.image(image)
     |> Embed.send()
   end
 end
