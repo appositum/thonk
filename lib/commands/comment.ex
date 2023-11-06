@@ -1,5 +1,6 @@
 defmodule Thonk.Comment do
   use Alchemy.Cogs
+  alias Alchemy.Client
 
   @doc """
   Gets a random comment from brazilian porn on xvideos.
@@ -7,15 +8,15 @@ defmodule Thonk.Comment do
   Inspired by `https://github.com/ihavenonickname/bot-telegram-comentarios-xvideos`.
   """
   Cogs.def comment do
-    Cogs.say("**Pesquisando um comentário...**")
+    {:ok, msg} = Client.send_message(message.channel_id, "**Pesquisando um comentário...**")
 
     {title, %{"c" => content, "n" => author}} = get_comment()
     title   = HtmlEntities.decode(title)
     author  = HtmlEntities.decode(author)
     content = HtmlEntities.decode(content)
 
-    reply = ~s(**Título:**\n`#{title}`\n\n**#{author} comentou:**\n`#{content}`)
-    Cogs.say(reply)
+    reply = ~s(**Pesquisando um comentário...**\n\n**Título:**\n`#{title}`\n\n**#{author} comentou:**\n`#{content}`)
+    Client.edit_message(msg, reply)
   end
 
   @spec fetch_page(number) :: {String.t, String.t}
