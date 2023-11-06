@@ -23,6 +23,6 @@ defmodule Thonk do
     use Thonk.Basic
     use Thonk.Events
     use Thonk.Utils
-    use Thonk.XVideos
+    use Thonk.Fun
   end
 end
